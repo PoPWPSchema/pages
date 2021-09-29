@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace PoPWPSchema\Pages\FieldResolvers\ObjectType;
 
-use Symfony\Contracts\Service\Attribute\Required;
 use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractQueryableObjectTypeFieldResolver;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoP\Engine\TypeResolvers\ScalarType\IntScalarTypeResolver;
 use PoPSchema\Pages\TypeResolvers\ObjectType\PageObjectTypeResolver;
+use Symfony\Contracts\Service\Attribute\Required;
 use WP_Post;
 
 class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
@@ -40,18 +40,18 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
 
     public function getSchemaFieldDescription(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?string
     {
-        $descriptions = [
+        return match ($fieldName) {
             'menuOrder' => $this->translationAPI->__('Menu order', 'pages'),
-        ];
-        return $descriptions[$fieldName] ?? parent::getSchemaFieldDescription($objectTypeResolver, $fieldName);
+            default => parent::getSchemaFieldDescription($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getFieldTypeResolver(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ConcreteTypeResolverInterface
     {
-        $types = [
+        return match ($fieldName) {
             'menuOrder' => $this->intScalarTypeResolver,
-        ];
-        return $types[$fieldName] ?? parent::getFieldTypeResolver($objectTypeResolver, $fieldName);
+            default => parent::getFieldTypeResolver($objectTypeResolver, $fieldName),
+        };
     }
 
     public function getSchemaFieldTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): ?int
