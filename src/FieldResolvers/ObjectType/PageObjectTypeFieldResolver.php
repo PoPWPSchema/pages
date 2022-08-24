@@ -24,9 +24,13 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
     }
     final protected function getIntScalarTypeResolver(): IntScalarTypeResolver
     {
+        /** @var IntScalarTypeResolver */
         return $this->intScalarTypeResolver ??= $this->instanceManager->getInstance(IntScalarTypeResolver::class);
     }
 
+    /**
+     * @return array<class-string<ObjectTypeResolverInterface>>
+     */
     public function getObjectTypeResolverClassesToAttachTo(): array
     {
         return [
@@ -34,6 +38,9 @@ class PageObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolv
         ];
     }
 
+    /**
+     * @return string[]
+     */
     public function getFieldNamesToResolve(): array
     {
         return [
